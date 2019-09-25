@@ -1,18 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
 interface Props {
-  num: number;
+  title: string
   cont: any;
 }
 
-const App: React.FC<Props> = ({ num, cont }) =>
-  <div className="App">
-    <header className="App-header">
-      <h1>{num}</h1>
-      <button onClick={() => cont(num + 1)}>Click Me!</button>
-    </header>
+export const PickNumber: React.FC<Props> = ({ title, cont }) => (
+  <div>
+    <h1>{title}</h1>
+    <button onClick={() => cont(1)}>1</button>
+    <button onClick={() => cont(2)}>2</button>
+    <button onClick={() => cont(3)}>3</button>
+    <button onClick={() => cont(4)}>4</button>
   </div>
+)
 
-export default App;
+export const ShowResult: React.FC<{ result: number, cont: any }> = ({ result, cont }) => (
+  <>
+    <h1>Result: {result}</h1>
+    <button onClick={cont}>Reset</button>
+  </>
+)

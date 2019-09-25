@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { PickNumber, ShowResult } from './App';
 import * as serviceWorker from './serviceWorker';
 import { numberContMonadInstance } from './hkts/cont';
 
@@ -10,13 +10,20 @@ const render = (app: JSX.Element) => {
 }
 
 const i = numberContMonadInstance<any>();
-const runApp = (n: number): any =>
+const runApp =
   i.chain(
-    next => render(<App num={n} cont={next}/>),
-    (newNum: number) => runApp(newNum)
+    next => render(<PickNumber title="Pick First Number:" cont={next} />),
+    (first: number) =>
+      i.chain(
+        next => render(<PickNumber title="Pick Second Number:" cont={next} />),
+        (second: number) => i.chain(
+          next => render(<ShowResult result={first + second} cont={runApp} />),
+          () => i.of(null)
+        )
+      )
   );
 
-runApp(9001)(() => {});
+runApp(() => {});
 
 
 // If you want your app to work offline and load faster, you can change

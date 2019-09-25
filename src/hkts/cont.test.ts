@@ -8,6 +8,6 @@ it('renders without crashing', () => {
       (b: number) => i.of(b)
     )
 
-  const actual = ex1(console.log)
+  const actual = ex1(console.log as any)
   // expect(actual).toEqual(13)
 })
