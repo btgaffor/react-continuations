@@ -6,5 +6,9 @@ type Cont<A, R> = (f: (a: A) => R) => R
 
 export const numberContMonadInstance = <S>() => Monad<Cont<_, Fixed<S>>>({
   of: a => k => k(a),
-  chain: (c, f) => k => c(a => f(a)(k))
+  chain: (initialContinuationMonad, transformer) => {
+    return innerNext => {
+      return initialContinuationMonad(a => transformer(a)(innerNext))
+    }
+  }
 });

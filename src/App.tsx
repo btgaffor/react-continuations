@@ -1,23 +1,31 @@
 import React from 'react';
+import { Model, Todo, Filter, Action } from './models';
+import { TodoList } from './TodoList';
+import { TodoInput } from './TodoInput';
+import { FilterButtons } from './FilterButtons';
 
 interface Props {
-  title: string
-  cont: any;
+    model: Model,
+    dispatch: (action: Action) => any;
 }
 
-export const PickNumber: React.FC<Props> = ({ title, cont }) => (
-  <div>
-    <h1>{title}</h1>
-    <button onClick={() => cont(1)}>1</button>
-    <button onClick={() => cont(2)}>2</button>
-    <button onClick={() => cont(3)}>3</button>
-    <button onClick={() => cont(4)}>4</button>
-  </div>
+export const App: React.FC<Props> = ({ model, dispatch }) => (
+    <>
+        <TodoInput
+            input={model.input}
+            dispatch={dispatch}
+        />
+        <TodoList todos={filterTodos(model.todos, model.filter)} dispatch={dispatch} />
+        <FilterButtons dispatch={dispatch} />
+    </>
 )
 
-export const ShowResult: React.FC<{ result: number, cont: any }> = ({ result, cont }) => (
-  <>
-    <h1>Result: {result}</h1>
-    <button onClick={cont}>Reset</button>
-  </>
-)
+const filterTodos = (todos: Todo[], filter: Filter) => {
+    if (filter === 'all') {
+        return todos;
+    } else if (filter === 'uncompleted') {
+        return todos.filter(todo => !todo.completed);
+    } else {
+        return todos.filter(todo => todo.completed);
+    }
+}
