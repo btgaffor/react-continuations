@@ -10,7 +10,7 @@ const render = (app: JSX.Element) => {
 }
 
 const runTodoApp = async (model: Model, update: Update) => {
-    const action = await new Promise<Action>(resolve => { const propsA = { model }; const propsB = { dispatch: resolve }; return render(<App { ...propsA } { ...propsB } />) });
+    const action = await new Promise<Action>(dispatch => render(<App { ...{ model, dispatch } } />));
     runTodoApp(update(model, action), update)
 }
 
